@@ -16,6 +16,7 @@ export default function Home() {
       <p>{user?.firstName}</p>
       <div className="flex gap-6">
         <Link to="/dashboard">dashboard</Link>
+        <Link to="/admin">admin</Link>
         <Link to="/auth/login">login</Link>
         <Link to="/auth/register">register</Link>
       </div>

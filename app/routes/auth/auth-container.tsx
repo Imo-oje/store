@@ -1,8 +1,8 @@
-import { useAuth } from "~/hooks/use-auth";
-import { Navigate, Outlet } from "react-router";
 import { LoaderCircle } from "lucide-react";
+import { Navigate, Outlet } from "react-router";
+import { useAuth } from "~/hooks/use-auth";
 
-export default function Dashboard() {
+export default function AuthContainer() {
   const { data, isLoading } = useAuth();
 
   return isLoading ? (
@@ -11,7 +11,7 @@ export default function Dashboard() {
     </div>
   ) : data ? (
     <div>
-      <Outlet />
+      <Outlet context={data} />
     </div>
   ) : (
     <Navigate

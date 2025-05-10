@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { getUser } from "~/api/api";
 
-interface UserType {
+export interface UserType {
   id: string;
   firstName: string;
   lastName: string;

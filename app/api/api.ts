@@ -15,6 +15,9 @@ export const resetPassword = (data: ResetPassword) =>
   API.post("/auth/password/reset", data);
 
 export const getUser = (): Promise<any> => API.get("/user/profile");
+export const getAllAdmins = () => API.get("/admin/profile/all");
+export const getAdminById = (adminId: string): Promise<any> =>
+  API.get(`/admin/profile/${adminId}`);
 
 // TYPES and INTERFACES
 

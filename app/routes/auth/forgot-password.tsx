@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
+} from "../../components/ui/card";
 import { cn } from "~/lib/utils";
 import { GalleryVerticalEnd, Loader2 } from "lucide-react";
 import { Input } from "~/components/ui/input";

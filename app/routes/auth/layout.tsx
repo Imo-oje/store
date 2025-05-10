@@ -6,7 +6,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "~/components/ui/carousel";
-import Image1 from "../assets/img-1.jpg";
+import Image1 from "../../assets/img-1.jpg";
 
 export default function AuthLayout() {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
