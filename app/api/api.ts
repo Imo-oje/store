@@ -7,7 +7,7 @@ export const login = (
 export const registerUser = (data: RegisterFormInputs) =>
   API.post("/auth/register", data);
 
-export const logout = () => API.post("/auth/logout");
+export const logout = () => API.get("/auth/logout");
 export const refresh = () => API.get("/auth/refresh");
 export const forgotPassword = (data: ForgotPassword) =>
   API.post("auth/password/forgot", data);

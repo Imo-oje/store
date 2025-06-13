@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   PanelRightOpen,
   PanelRightClose,
@@ -11,6 +11,9 @@ import {
   LogOut,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useMutation } from "@tanstack/react-query";
+import { logout } from "~/api/api";
+import { getSideBarState } from "~/lib/utils";
 
 export default function StoreSideBar() {
   const [navItems, setNavItems] = useState([
@@ -20,15 +23,26 @@ export default function StoreSideBar() {
     { name: "Conversations", icon: <MessagesSquare /> },
     { name: "Settings", icon: <Settings /> },
   ]);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(getSideBarState());
+  const navigate = useNavigate();
+
+  console.log(isOpen);
+
+  const { mutate: mutLogout } = useMutation({
+    mutationFn: logout,
+    onSuccess: (data) => {
+      navigate("/auth/login");
+    },
+  });
+
   return (
     <>
       <nav
-        className={`border h-full transition-all duration-300 overflow-hidden flex flex-col ${
+        className={`border h-full rounded-sm transition-all duration-300 overflow-hidden flex flex-col ${
           isOpen ? "w-[14rem]" : "w-[3.5rem] min-w-[3.5rem]"
         }`}
       >
-        <div className="border p-2 flex items-center justify-between transition-all duration-300 overflow-hidden">
+        <div className="p-2 flex items-center justify-between transition-all duration-300 overflow-hidden">
           {isOpen && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <Link to="/store" className="text-nowrap font-bold uppercase">
@@ -38,7 +52,12 @@ export default function StoreSideBar() {
           )}
 
           <span
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() =>
+              setIsOpen((prevState) => {
+                localStorage.setItem("side-bar", prevState ? "close" : "open");
+                return !prevState;
+              })
+            }
             className="cursor-pointer p-2"
           >
             {isOpen ? <PanelRightOpen /> : <PanelRightClose />}
@@ -65,6 +84,7 @@ export default function StoreSideBar() {
         </ul>
         <div className="p-2 w-full h-18 justify-self-end">
           <li
+            onClick={() => mutLogout()}
             className={`flex items-center cursor-pointer bg-gray-700 rounded-sm transition-all duration-300 overflow-hidden ${
               isOpen ? "gap-4 p-4" : "p-2 justify-center"
             }`}
