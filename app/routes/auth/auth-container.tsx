@@ -18,6 +18,6 @@ export default function AuthContainer() {
       to="/auth/login"
       replace
       state={{ redirectUrl: window.location.pathname }}
-    /> //state redirect user back to original request
+    /> //state redirect store back to original request
   );
 }

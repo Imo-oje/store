@@ -50,12 +50,9 @@ export default function LoginForm({
       const redirectUrl = sessionStorage.getItem("redirectUrl");
       sessionStorage.removeItem("redirectUrl");
       toast.success(data.message);
-      navigate(
-        redirectUrl || (data.role === "ADMIN" ? "/admin" : "/dashboard"),
-        {
-          replace: true,
-        }
-      );
+      navigate(redirectUrl || (data.role === "ADMIN" ? "/admin" : "/store"), {
+        replace: true,
+      });
     },
   });
   return (

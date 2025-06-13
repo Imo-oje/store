@@ -6,7 +6,8 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  index("routes/public_routes/home.tsx"),
+  index("routes/public/home.tsx"),
+  route("catalog", "routes/public/catalog.tsx"),
 
   layout("routes/auth/layout.tsx", [
     route("auth/login", "routes/auth/login.tsx"),
@@ -18,12 +19,16 @@ export default [
   layout("routes/auth/auth-container.tsx", [
     route("admin", "routes/admin/dashboard.tsx", [
       index("routes/admin/overview.tsx"),
-      route("settings", "routes/admin/settings/settings.tsx"),
+      route("settings", "routes/admin/settings/settings.tsx", [
+        route("security", "routes/admin/settings/security.tsx"),
+        route("roles", "routes/admin/settings/role.tsx"),
+        route("roles/create", "routes/admin/create-role.tsx"),
+      ]),
       route("products", "routes/admin/products/products.tsx"),
       route("customers", "routes/admin/customers/customers.tsx"),
     ]),
-    route("/dashboard", "routes/user/dashboard.tsx", [
-      index("routes/user/overview.tsx"),
+    route("/store", "routes/store/index.tsx", [
+      index("routes/store/overview.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

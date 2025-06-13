@@ -29,8 +29,9 @@ export default function MainNav({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {navLinks.map((link) => (
+      {navLinks.map((link, idx) => (
         <NavLink
+          key={idx}
           to={link.path}
           className={({ isActive }) =>
             [
