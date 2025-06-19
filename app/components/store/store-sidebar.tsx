@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, type Ref, useImperativeHandle, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import {
   PanelRightOpen,
@@ -15,16 +15,24 @@ import { useMutation } from "@tanstack/react-query";
 import { logout } from "~/api/api";
 import { getSideBarState } from "~/lib/utils";
 
-export default function StoreSideBar() {
+export interface SidebarHandle {
+  toggle: () => void;
+}
+
+function StoreSideBarComponent(_props: {}, ref: Ref<SidebarHandle>) {
   const [navItems, setNavItems] = useState([
-    { name: "Overview", icon: <ChartNoAxesGantt /> },
-    { name: "Analytics", icon: <ChartArea /> },
-    { name: "Products", icon: <ShoppingBasket /> },
-    { name: "Conversations", icon: <MessagesSquare /> },
-    { name: "Settings", icon: <Settings /> },
+    { name: "Overview", path: "", icon: <ChartNoAxesGantt /> },
+    { name: "Analytics", path: "analytics", icon: <ChartArea /> },
+    { name: "Products", path: "products", icon: <ShoppingBasket /> },
+    { name: "Messages", path: "messages", icon: <MessagesSquare /> },
+    { name: "Settings", path: "settings", icon: <Settings /> },
   ]);
   const [isOpen, setIsOpen] = useState(getSideBarState());
   const navigate = useNavigate();
+
+  useImperativeHandle(ref, () => ({
+    toggle: () => setIsOpen((prevState) => !prevState),
+  }));
 
   console.log(isOpen);
 
@@ -38,8 +46,8 @@ export default function StoreSideBar() {
   return (
     <>
       <nav
-        className={`border h-full rounded-sm transition-all duration-300 overflow-hidden flex flex-col ${
-          isOpen ? "w-[14rem]" : "w-[3.5rem] min-w-[3.5rem]"
+        className={`md:flex absolute z-9998 md:static border h-full rounded-sm transition-all duration-300 overflow-hidden flex-col ${
+          isOpen ? "w-[14rem] block" : "w-[3.5rem] min-w-[3.5rem] hidden"
         }`}
       >
         <div className="p-2 flex items-center justify-between transition-all duration-300 overflow-hidden">
@@ -67,18 +75,25 @@ export default function StoreSideBar() {
           {navItems.map((item, index) => (
             <li
               key={index}
-              className={`flex items-center cursor-pointer bg-gray-700 rounded-sm transition-all duration-300 overflow-hidden ${
+              className={`w-full flex items-center cursor-pointer bg-gray-700 rounded-sm transition-all duration-300 overflow-hidden ${
                 isOpen ? "gap-4 p-4" : "p-2 justify-center"
               }`}
             >
-              <span>{item.icon}</span>
-              <h3
-                className={`transition-all duration-300 whitespace-nowrap overflow-hidden ${
-                  isOpen ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0"
+              <Link
+                to={item.path}
+                className={`flex items-center cursor-pointer bg-gray-700 rounded-sm transition-all duration-300 overflow-hidden ${
+                  isOpen ? "gap-4 p-4" : "p-2 justify-center"
                 }`}
               >
-                {item.name}
-              </h3>
+                <span>{item.icon}</span>
+                <h3
+                  className={`transition-all duration-300 whitespace-nowrap overflow-hidden ${
+                    isOpen ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0"
+                  }`}
+                >
+                  {item.name}
+                </h3>
+              </Link>
             </li>
           ))}
         </ul>
@@ -105,3 +120,5 @@ export default function StoreSideBar() {
     </>
   );
 }
+const storeSideBar = forwardRef(StoreSideBarComponent);
+export default storeSideBar;

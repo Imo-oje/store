@@ -1,6 +1,11 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import { Link } from "react-router";
 import LoginForm from "~/components/login-form";
+import type { Route } from "./+types/login";
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "Login" }];
+}
 
 export default function LoginPage() {
   return (

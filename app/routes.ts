@@ -29,6 +29,10 @@ export default [
     ]),
     route("/store", "routes/store/index.tsx", [
       index("routes/store/overview.tsx"),
+      route("products", "routes/store/store-products.tsx"),
+      route("analytics", "routes/store/analytics.tsx"),
+      route("messages", "routes/store/messages.tsx"),
+      route("settings", "routes/store/settings.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;
